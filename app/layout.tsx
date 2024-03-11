@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
-import Head from 'next/head';
-import { Inter } from 'next/font/google';
 
 import './globals.css';
 import './reset.css';
+import ConfigProvider from '@/context/commonContext';
 
 const SITE_TITLE = '대항오 계산기';
 const SITE_DESCRIPTION = '대항오 계산기';
@@ -33,7 +32,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className="app">
-      <body>{children}</body>
+      <ConfigProvider>
+        <body>{children}</body>
+      </ConfigProvider>
     </html>
   );
 }

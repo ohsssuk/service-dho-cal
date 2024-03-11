@@ -36,7 +36,6 @@ export default function Fleet() {
   }, []);
 
   useEffect(() => {
-    console.log(useShips);
     saveUseData();
   }, [useShips, useArmors, useRams, useAnchor]);
 

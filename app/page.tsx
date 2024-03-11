@@ -1,4 +1,3 @@
-import CommonSection from '@/components/CommonSection';
 import ContentHeader from '@/components/ContentHeader';
 import Fleet from '@/containers/fleet/Fleet';
 
