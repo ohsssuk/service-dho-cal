@@ -1,57 +1,72 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
 
 import { ShipItemProps, StatRowProps } from './item/ShipProps';
 
-import { createShipItem } from './main';
+import {
+  createShipItem,
+  getSortOptionFromStatRow,
+  removeShipItemListNullValues,
+} from './main';
 
 import styles from './fleet.module.css';
 import CommonSection from '@/components/CommonSection';
 import ShipItemList from './ShipItemList';
 import Select from '@/components/Select';
 import { statRow } from './data';
+import { saveUseData, getLastSavedData } from './indexedDB';
 
 export default function Fleet() {
   const [isInit, setIsInit] = useState<boolean>(false);
-  const [lastIndex, setLastIndex] = useState<number>(0);
-  const [cookies, setCookie] = useCookies(['useData']);
+  const [lastIndex, setLastIndex] = useState<{
+    ship: number;
+    armor: number;
+    anchor: number;
+    ram: number;
+  }>({
+    ship: 0,
+    armor: 0,
+    anchor: 0,
+    ram: 0,
+  });
 
-  const [useShips, setUseShips] = useState<ShipItemProps[]>(
-    cookies.useData?.useShips || [],
-  );
-  const [useArmors, setUseArmors] = useState<ShipItemProps[]>(
-    cookies.useData?.useArmors || [],
-  );
-  const [useRams, setUseRams] = useState<ShipItemProps[]>(
-    cookies.useData?.useRams || [],
-  );
-  const [useAnchor, setUseAnchor] = useState<ShipItemProps[]>(
-    cookies.useData?.useAnchor || [],
-  );
+  const [useShips, setUseShips] = useState<ShipItemProps[]>([]);
+  const [useArmors, setUseArmors] = useState<ShipItemProps[]>([]);
+  const [useRams, setUseRams] = useState<ShipItemProps[]>([]);
+  const [useAnchor, setUseAnchor] = useState<ShipItemProps[]>([]);
 
   useEffect(() => {
-    setIsInit(true);
-    console.log('buildTest');
+    getLastSavedData()
+      .then((savedData) => {
+        setUseShips(savedData.useShips || []);
+        setUseArmors(savedData.useArmors || []);
+        setUseRams(savedData.useRams || []);
+        setUseAnchor(savedData.useAnchor || []);
+        setLastIndex({
+          ship: savedData.useShips.length,
+          armor: savedData.useArmors.length,
+          ram: savedData.useRams.length,
+          anchor: savedData.useAnchor.length,
+        });
+        setIsInit(true);
+      })
+      .catch((error) => {
+        console.error('데이터 가져오기 실패:', error);
+        setIsInit(true);
+      });
   }, []);
 
   useEffect(() => {
-    saveUseData();
-  }, [useShips, useArmors, useRams, useAnchor]);
-
-  const saveUseData = () => {
-    setCookie(
-      'useData',
-      {
+    if (isInit) {
+      saveUseData({
         useShips: useShips,
         useArmors: useArmors,
         useRams: useRams,
         useAnchor: useAnchor,
-      },
-      { expires: new Date(Date.now() + 365 * 5 * 24 * 60 * 60 * 1000) },
-    );
-  };
+      });
+    }
+  }, [useShips, useArmors, useRams, useAnchor]);
 
   const getUseItem = (kind: ShipItemProps['kind']) => {
     let newUseItem: ShipItemProps[];
@@ -77,6 +92,7 @@ export default function Fleet() {
       default:
         newUseItem = [...useShips];
         setUseItem = setUseShips;
+        korLang = '선박';
         break;
     }
 
@@ -86,19 +102,15 @@ export default function Fleet() {
   const addUseItem = (kind: ShipItemProps['kind']) => {
     const { newUseItem, setUseItem, korLang } = getUseItem(kind);
 
-    let createItem;
-    if (kind === 'ship') {
-      createItem = createShipItem({
-        name: `${lastIndex + 1}번 선박`,
-        kind,
-      });
-      setLastIndex((prev) => prev + 1);
-    } else {
-      createItem = createShipItem({
-        name: korLang,
-        kind,
-      });
-    }
+    const createItem = createShipItem({
+      name: `${lastIndex[kind] + 1}번 ${korLang}`,
+      kind,
+    });
+
+    setLastIndex((prev) => ({
+      ...prev,
+      [kind]: (prev[kind] || 0) + 1,
+    }));
 
     newUseItem.push(createItem);
 
@@ -117,26 +129,7 @@ export default function Fleet() {
     setUseItem(newUseItem);
   };
 
-  const getSortOptionFromStatRow = (statRow: StatRowProps[]) => {
-    const newData = statRow.map((stat: StatRowProps) => ({
-      content: stat.kor,
-      value: stat.val,
-    }));
-
-    return [
-      {
-        content: '높은순 정렬',
-        value: '',
-      },
-      {
-        content: '이름순',
-        value: 'name',
-      },
-      ...newData,
-    ];
-  };
-
-  const changeSort = (value: string | number, kind: ShipItemProps['kind']) => {
+  const sortUseItem = (value: string | number, kind: ShipItemProps['kind']) => {
     if (value === '') return;
 
     const { newUseItem, setUseItem } = getUseItem(kind);
@@ -177,7 +170,7 @@ export default function Fleet() {
             <Select
               options={getSortOptionFromStatRow(statRow.armor)}
               selectedValue={''}
-              onSelect={(value) => changeSort(value, 'armor')}
+              onSelect={(value) => sortUseItem(value, 'armor')}
             />
           </div>
         </div>
@@ -195,7 +188,7 @@ export default function Fleet() {
             <Select
               options={getSortOptionFromStatRow(statRow.ram)}
               selectedValue={''}
-              onSelect={(value) => changeSort(value, 'ram')}
+              onSelect={(value) => sortUseItem(value, 'ram')}
             />
           </div>
         </div>
@@ -213,7 +206,7 @@ export default function Fleet() {
             <Select
               options={getSortOptionFromStatRow(statRow.anchor)}
               selectedValue={''}
-              onSelect={(value) => changeSort(value, 'anchor')}
+              onSelect={(value) => sortUseItem(value, 'anchor')}
             />
           </div>
         </div>

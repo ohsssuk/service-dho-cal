@@ -29,7 +29,7 @@ export default function Checkbox({
       />
       <label
         htmlFor={id}
-        className={`inline-flex items-center cursor-pointer rounded-full pl-2.5 pr-3 py-1`}
+        className={`inline-flex items-center cursor-pointer rounded-full px-3 py-1`}
         style={{ backgroundColor: checked ? 'var(--main500)' : '' }}
       >
         <FontAwesomeIcon

@@ -34,12 +34,6 @@ export default function RootLayout({
   return (
     <html lang="ko" className="app">
       <ConfigProvider>
-        <Head>
-          <link
-            rel="icon"
-            href="https://ohsssuk.github.io/dho-cal/favicon.ico"
-          />
-        </Head>
         <body>{children}</body>
       </ConfigProvider>
     </html>

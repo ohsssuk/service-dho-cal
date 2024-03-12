@@ -47,6 +47,11 @@
   justify-content: space-between;
   padding: 10px 8px;
 }
+.item .label {
+  padding: 2px 8px;
+  height: 28px;
+  background-color: var(--gray100);
+}
 
 .item .head {
   display: flex;

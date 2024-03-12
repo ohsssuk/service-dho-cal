@@ -16,6 +16,7 @@ import Input from '@/components/Input';
 import { statRow } from '../data';
 import Checkbox from '@/components/Checkbox';
 import Button from '@/components/Button';
+import LabelSticker from '@/components/LabelSticker';
 
 export default function ShipItem({
   option,
@@ -53,7 +54,7 @@ export default function ShipItem({
   return (
     <li className={styles.item}>
       <section className={styles.menu}>
-        <div>
+        <div className="flex pr-5">
           <Checkbox
             id={`${option.kind}_isUse_${index}`}
             label={`${option.isUse ? '사용' : '대기'}`}
@@ -61,11 +62,16 @@ export default function ShipItem({
             onChange={(value) => changeStat({ index, key: 'isUse', value })}
           />
         </div>
-        <div>
+        <div className="inline-flex items-center">
           <Button onClick={deleteItem}>
             <FontAwesomeIcon icon={faTrashAlt} className="text-gray-500" />
           </Button>
         </div>
+      </section>
+      <section className={styles.label}>
+        {option.isMount && (
+          <LabelSticker backgroundColor="#00bba3">#장착</LabelSticker>
+        )}
       </section>
       <section className={styles.head}>
         <div className={styles.icon}>

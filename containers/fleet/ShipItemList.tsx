@@ -4,6 +4,7 @@ import ShipItem from './item/ShipItem';
 import { ShipItemProps } from './item/ShipProps';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { checkItemMount } from './main';
 
 export default function ShipItemList({
   useItem,
@@ -16,6 +17,8 @@ export default function ShipItemList({
   addUseItem: any;
   kind: ShipItemProps['kind'];
 }) {
+  checkItemMount(useItem);
+
   return (
     <div className={`${styles.wrap}`}>
       <ul className={`${styles.list}`}>
@@ -30,7 +33,7 @@ export default function ShipItemList({
         <li className={`${styles.item} ${styles.add}`}>
           <Button onClick={() => addUseItem(kind)}>
             <FontAwesomeIcon icon={faPlus} className="mr-2 text-lg" />
-            <span className="text-lg">{`추가`}</span>
+            <span className="text-lg font-semibold">{`추가`}</span>
           </Button>
         </li>
       </ul>
