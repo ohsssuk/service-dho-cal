@@ -33,6 +33,7 @@ export default function Fleet() {
 
   useEffect(() => {
     setIsInit(true);
+    console.log('buildTest');
   }, []);
 
   useEffect(() => {
