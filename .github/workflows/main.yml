@@ -1,6 +1,14 @@
 name: GitHub Pages Deploy
 
 on:
+  # 수동으로 동작
+  workflow_dispatch:
+
+  # schedule
+  #schedule:
+  #  - cron: '* 1 * * *'
+    
+  # main 브랜치에 푸시할 경우 동작
   push:
     branches:
       - main
