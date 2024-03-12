@@ -2,7 +2,7 @@
   "name": "dho-cal",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://ohsssuk.github.io/dho-cal/",
+  "homepage": "https://ohsssuk.github.io/dho-cal/",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
