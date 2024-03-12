@@ -7,5 +7,4 @@ const nextConfig = {
   assetPrefix: '/dho-cal/',
 };
 
-
 module.exports = nextConfig;

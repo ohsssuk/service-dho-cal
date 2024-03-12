@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import './reset.css';
 import ConfigProvider from '@/context/commonContext';
+import Head from 'next/head';
 
 const SITE_TITLE = '대항오 계산기';
 const SITE_DESCRIPTION = '대항오 계산기';
@@ -13,13 +14,13 @@ export const metadata: Metadata = {
   keywords: '대항해시대, 대항해시대 오리진, 게임, 계산기, 편의기능',
   openGraph: {
     type: 'website',
-    url: 'http://www.lifebefore.co.kr/dho-cal',
+    url: 'https://ohsssuk.github.io/dho-cal/',
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     siteName: SITE_TITLE,
     images: [
       {
-        url: 'http://www.lifebefore.co.kr/images/thumb.jpg',
+        url: 'https://ohsssuk.github.io/dho-cal/public/og_image.jpg',
       },
     ],
   },
@@ -33,6 +34,12 @@ export default function RootLayout({
   return (
     <html lang="ko" className="app">
       <ConfigProvider>
+        <Head>
+          <link
+            rel="icon"
+            href="https://ohsssuk.github.io/dho-cal/favicon.ico"
+          />
+        </Head>
         <body>{children}</body>
       </ConfigProvider>
     </html>
