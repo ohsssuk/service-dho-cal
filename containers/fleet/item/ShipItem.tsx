@@ -70,7 +70,7 @@ export default function ShipItem({
       </section>
       <section className={styles.label}>
         {option.isMount && (
-          <LabelSticker backgroundColor="#00bba3">#장착</LabelSticker>
+          <LabelSticker backgroundColor="var(--red500)">#장착</LabelSticker>
         )}
       </section>
       <section className={styles.head}>
