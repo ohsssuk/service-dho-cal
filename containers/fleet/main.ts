@@ -67,3 +67,14 @@ export function removeShipItemListNullValues(shipItemData: ShipItemProps[]) {
     return cleanedItem as ShipItemProps;
   });
 }
+
+export function moveColumnsToFront(
+  array: any[],
+  columnsToMoveToFront: string[],
+) {
+  const frontColumns = columnsToMoveToFront
+    .map((column) => array.find((item) => item.val === column))
+    .filter(Boolean);
+  const restColumns = array.filter((item) => !frontColumns.includes(item));
+  return [...frontColumns, ...restColumns];
+}

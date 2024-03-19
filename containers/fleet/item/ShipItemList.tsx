@@ -1,10 +1,10 @@
 import Button from '@/components/Button';
-import styles from './fleet.module.css';
-import ShipItem from './item/ShipItem';
-import { ShipItemProps } from './item/ShipProps';
+import styles from '../fleet.module.css';
+import ShipItem from './ShipItem';
+import { ShipItemProps } from './ShipProps';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { checkItemMount } from './main';
+import { checkItemMount } from '../main';
 
 export default function ShipItemList({
   useItem,

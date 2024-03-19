@@ -48,8 +48,12 @@ export default function BottomMenuBar({
   };
 
   return (
-    <div
-      style={{ borderTop: '1px solid var(--gray200)', minWidth: 300 }}
+    <section
+      style={{
+        borderTop: '1px solid var(--gray200)',
+        minWidth: 300,
+        zIndex: 999,
+      }}
       className="fixed bottom-0 text-white left-0 w-full bg-white px-2 py-3 flex justify-end"
     >
       <Button onClick={calculate} icon={faCalculator} text="계산" />
@@ -58,6 +62,6 @@ export default function BottomMenuBar({
       <div className="hidden md:flex">
         <Button onClick={deleteAll} icon={faSyncAlt} text="초기화" />
       </div>
-    </div>
+    </section>
   );
 }
