@@ -16,6 +16,15 @@ import ShipItemList from './ShipItemList';
 import Select from '@/components/Select';
 import { statRow } from './data';
 import { saveUseData, getLastSavedData } from './indexedDB';
+import BottomMenuBar from './BottomMenuBar';
+import CodePopup from './CodePopup';
+
+type saveData = {
+  useShips: ShipItemProps[];
+  useArmors: ShipItemProps[];
+  useRams: ShipItemProps[];
+  useAnchor: ShipItemProps[];
+};
 
 export default function Fleet() {
   const [isInit, setIsInit] = useState<boolean>(false);
@@ -36,19 +45,13 @@ export default function Fleet() {
   const [useRams, setUseRams] = useState<ShipItemProps[]>([]);
   const [useAnchor, setUseAnchor] = useState<ShipItemProps[]>([]);
 
+  const [isCodePopupOpen, setIsCodePopupOpen] = useState<boolean>(false);
+  const [codePopupData, setCodePopupData] = useState<string>('');
+
   useEffect(() => {
     getLastSavedData()
       .then((savedData) => {
-        setUseShips(savedData.useShips || []);
-        setUseArmors(savedData.useArmors || []);
-        setUseRams(savedData.useRams || []);
-        setUseAnchor(savedData.useAnchor || []);
-        setLastIndex({
-          ship: savedData.useShips.length,
-          armor: savedData.useArmors.length,
-          ram: savedData.useRams.length,
-          anchor: savedData.useAnchor.length,
-        });
+        setFleetFromSaveData(savedData);
         setIsInit(true);
       })
       .catch((error) => {
@@ -58,15 +61,21 @@ export default function Fleet() {
   }, []);
 
   useEffect(() => {
-    if (isInit) {
-      saveUseData({
-        useShips: useShips,
-        useArmors: useArmors,
-        useRams: useRams,
-        useAnchor: useAnchor,
-      });
-    }
+    console.log(1);
   }, [useShips, useArmors, useRams, useAnchor]);
+
+  const setFleetFromSaveData = (savedData: saveData) => {
+    setUseShips(savedData.useShips || []);
+    setUseArmors(savedData.useArmors || []);
+    setUseRams(savedData.useRams || []);
+    setUseAnchor(savedData.useAnchor || []);
+    setLastIndex({
+      ship: savedData.useShips.length,
+      armor: savedData.useArmors.length,
+      ram: savedData.useRams.length,
+      anchor: savedData.useAnchor.length,
+    });
+  };
 
   const getUseItem = (kind: ShipItemProps['kind']) => {
     let newUseItem: ShipItemProps[];
@@ -149,6 +158,48 @@ export default function Fleet() {
     setUseItem(sortedItems);
   };
 
+  const calculateFleet = () => {
+    console.log('cal-');
+  };
+
+  const saveFleet = () => {
+    saveUseData({
+      useShips: removeShipItemListNullValues(useShips),
+      useArmors: removeShipItemListNullValues(useArmors),
+      useRams: removeShipItemListNullValues(useRams),
+      useAnchor: removeShipItemListNullValues(useAnchor),
+    });
+
+    alert('웹 브라우저에 저장되었습니다.');
+  };
+
+  const useFleetCode = () => {
+    setCodePopupData(
+      JSON.stringify({
+        useShips: removeShipItemListNullValues(useShips),
+        useArmors: removeShipItemListNullValues(useArmors),
+        useRams: removeShipItemListNullValues(useRams),
+        useAnchor: removeShipItemListNullValues(useAnchor),
+      }),
+    );
+    setIsCodePopupOpen(true);
+  };
+
+  const handleApplyCode = (fleetCode: string) => {
+    setFleetFromSaveData(JSON.parse(fleetCode));
+    setIsCodePopupOpen(false);
+    alert('적용 되었습니다.');
+  };
+
+  const deleteFleet = () => {
+    if (confirm('전체 초기화 하시겠습니까?')) {
+      setUseShips([]);
+      setUseArmors([]);
+      setUseRams([]);
+      setUseAnchor([]);
+    }
+  };
+
   if (!isInit) {
     return null;
   }
@@ -217,6 +268,20 @@ export default function Fleet() {
           kind="anchor"
         />
       </CommonSection>
+
+      <BottomMenuBar
+        calculate={calculateFleet}
+        save={saveFleet}
+        useCode={useFleetCode}
+        deleteAll={deleteFleet}
+      />
+      {isCodePopupOpen && (
+        <CodePopup
+          initText={codePopupData}
+          onApply={handleApplyCode}
+          onClose={() => setIsCodePopupOpen(false)}
+        />
+      )}
     </>
   );
 }
