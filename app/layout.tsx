@@ -18,6 +18,7 @@ export const metadata: Metadata = {
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     siteName: SITE_TITLE,
+    icons: './favicon.ico',
     images: [
       {
         url: 'https://ohsssuk.github.io/dho-cal/public/og_image.jpg',
