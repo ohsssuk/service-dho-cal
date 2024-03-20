@@ -5,6 +5,7 @@ export type fleetData = {
   useArmors: ShipItemProps[];
   useRams: ShipItemProps[];
   useAnchor: ShipItemProps[];
+  useSpecial: ShipItemProps[];
 };
 
 export type fleetListData = {

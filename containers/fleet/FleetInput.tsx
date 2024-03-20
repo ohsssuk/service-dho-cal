@@ -31,17 +31,20 @@ export default function FleetInput({
     armor: number;
     anchor: number;
     ram: number;
+    special: number;
   }>({
     ship: 0,
     armor: 0,
     anchor: 0,
     ram: 0,
+    special: 0,
   });
 
   const [useShips, setUseShips] = useState<ShipItemProps[]>([]);
   const [useArmors, setUseArmors] = useState<ShipItemProps[]>([]);
   const [useRams, setUseRams] = useState<ShipItemProps[]>([]);
   const [useAnchor, setUseAnchor] = useState<ShipItemProps[]>([]);
+  const [useSpecial, setUseSpecial] = useState<ShipItemProps[]>([]);
 
   const [isCodePopupOpen, setIsCodePopupOpen] = useState<boolean>(false);
   const [codePopupData, setCodePopupData] = useState<string>('');
@@ -63,11 +66,13 @@ export default function FleetInput({
     setUseArmors(savedData.useArmors || []);
     setUseRams(savedData.useRams || []);
     setUseAnchor(savedData.useAnchor || []);
+    setUseSpecial(savedData.useSpecial || []);
     setLastIndex({
-      ship: savedData.useShips.length,
-      armor: savedData.useArmors.length,
-      ram: savedData.useRams.length,
-      anchor: savedData.useAnchor.length,
+      ship: savedData.useShips.length ?? 0,
+      armor: savedData.useArmors.length ?? 0,
+      ram: savedData.useRams.length ?? 0,
+      anchor: savedData.useAnchor.length ?? 0,
+      special: savedData.useSpecial.length ?? 0,
     });
   };
 
@@ -91,6 +96,11 @@ export default function FleetInput({
         newUseItem = [...useAnchor];
         setUseItem = setUseAnchor;
         korLang = '닻';
+        break;
+      case 'special':
+        newUseItem = [...useSpecial];
+        setUseItem = setUseSpecial;
+        korLang = '특수';
         break;
       default:
         newUseItem = [...useShips];
@@ -158,6 +168,7 @@ export default function FleetInput({
       useArmors,
       useRams,
       useAnchor,
+      useSpecial,
     });
   };
 
@@ -167,6 +178,7 @@ export default function FleetInput({
       useArmors: removeShipItemListNullValues(useArmors),
       useRams: removeShipItemListNullValues(useRams),
       useAnchor: removeShipItemListNullValues(useAnchor),
+      useSpecial: removeShipItemListNullValues(useSpecial),
     });
 
     alert('웹 브라우저에 저장되었습니다.');
@@ -179,6 +191,7 @@ export default function FleetInput({
         useArmors: removeShipItemListNullValues(useArmors),
         useRams: removeShipItemListNullValues(useRams),
         useAnchor: removeShipItemListNullValues(useAnchor),
+        useSpecial: removeShipItemListNullValues(useSpecial),
       }),
     );
     setIsCodePopupOpen(true);
@@ -196,6 +209,7 @@ export default function FleetInput({
       setUseArmors([]);
       setUseRams([]);
       setUseAnchor([]);
+      setUseSpecial([]);
     }
   };
 
@@ -272,6 +286,24 @@ export default function FleetInput({
           addUseItem={addUseItem}
           changeUseItem={changeUseItem}
           kind="anchor"
+        />
+      </CommonSection>
+
+      <CommonSection title="특수 입력">
+        <div className="flex justify-end py-1 px-2">
+          <div className="w-40">
+            <Select
+              options={getSortOptionFromStatRow(statRow.special)}
+              selectedValue={''}
+              onSelect={(value) => sortUseItem(value, 'special')}
+            />
+          </div>
+        </div>
+        <ShipItemList
+          useItem={useSpecial}
+          addUseItem={addUseItem}
+          changeUseItem={changeUseItem}
+          kind="special"
         />
       </CommonSection>
 
