@@ -134,6 +134,8 @@ export default function ResultTable({
                         const foundShip = inputData.useShips.find(
                           (ship) => ship.id === id,
                         );
+
+                        console.log(foundShip);
                         if (foundShip) {
                           return (
                             <tr key={id} className={styles.result_table_detail}>
@@ -144,12 +146,19 @@ export default function ResultTable({
                                 </LabelSticker>
                                 <div className="ml-1">{foundShip.name}</div>
                               </td>
-                            </tr>
-                          );
-                        } else {
-                          return (
-                            <tr key={id}>
-                              <td colSpan={2}></td>
+                              <td align="center">{foundShip.nae}</td>
+                              <td align="center">{foundShip.dol}</td>
+                              <td align="center">{foundShip.swe}</td>
+                              <td align="center">{foundShip.crew}</td>
+                              <td align="center">{foundShip.minCrew}</td>
+                              <td align="center">{foundShip.durability}</td>
+                              <td align="center">{foundShip.loadedQuantity}</td>
+                              <td align="center">{foundShip.rowing}</td>
+                              <td align="center">{foundShip.verticalSail}</td>
+                              <td align="center">{foundShip.horizontalSail}</td>
+                              <td align="center">{foundShip.stat1}</td>
+                              <td align="center">{foundShip.stat2}</td>
+                              <td align="center">{foundShip.stat3}</td>
                             </tr>
                           );
                         }

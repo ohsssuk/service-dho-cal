@@ -143,6 +143,13 @@
   font-size: 14px;
   color: var(--gray600);
 }
+.result_table tbody tr.result_table_detail:hover {
+  cursor: auto;
+}
+.result_table tbody tr.result_table_detail td {
+  height: 30px;
+  background: var(--gray100);
+}
 .result_table th:first-of-type,
 .result_table td:first-of-type {
   padding-left: 12px;
