@@ -8,9 +8,9 @@ export type fleetData = {
   useSpecial: ShipItemProps[];
 };
 
-export type fleetListData = {
+export type resultTableData = {
   [key: string]: number[] | number;
-  fleetIndex: number[];
+  ids: number[];
   nae: number;
   dol: number;
   swe: number;

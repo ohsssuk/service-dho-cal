@@ -4,7 +4,7 @@ import ShipItem from './ShipItem';
 import { ShipItemProps } from './ShipProps';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { checkItemMount } from '../main';
+import { checkItem } from '../main';
 
 export default function ShipItemList({
   useItem,
@@ -17,7 +17,7 @@ export default function ShipItemList({
   addUseItem: any;
   kind: ShipItemProps['kind'];
 }) {
-  checkItemMount(useItem);
+  checkItem(useItem);
 
   return (
     <div className={`${styles.wrap}`}>

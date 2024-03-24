@@ -1,7 +1,7 @@
 'use client';
 
 import CommonSection from '@/components/CommonSection';
-import { ReactNode, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import styles from '../fleet.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -9,18 +9,22 @@ import {
   faSortDown,
   faSortUp,
 } from '@fortawesome/free-solid-svg-icons';
-import { fleetListData } from '../type';
+import { fleetData, resultTableData } from '../type';
 import { statRow } from '../data';
 import { moveColumnsToFront } from '../main';
+import LabelSticker from '@/components/LabelSticker';
 
 export default function ResultTable({
-  fleetListData,
+  resultTableData,
+  inputData,
 }: {
-  fleetListData: fleetListData[];
+  resultTableData: resultTableData[];
+  inputData: fleetData;
 }) {
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [openIndex, setOpenIndex] = useState<number>(0);
 
   useEffect(() => {
     setIsLoading(false);
@@ -35,7 +39,7 @@ export default function ResultTable({
     }
   };
 
-  const sortedData = [...fleetListData].sort((a, b) => {
+  const sortedData = [...resultTableData].sort((a, b) => {
     if (sortColumn) {
       const aValue = parseFloat(String(a[sortColumn]));
       const bValue = parseFloat(String(b[sortColumn]));
@@ -106,16 +110,53 @@ export default function ResultTable({
               </tr>
             </thead>
             <tbody>
-              {sortedData.map((data: fleetListData, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{data.fleetIndex}</td>
-                  {reorderedShipRow.map((row, index) => (
-                    <td key={index} align="center">
-                      {data[row.val]}
+              {sortedData.map((data: resultTableData, rowIndex) => (
+                <Fragment key={rowIndex}>
+                  <tr onClick={() => setOpenIndex(rowIndex)}>
+                    <td>{rowIndex + 1}</td>
+                    <td>
+                      {data.ids.map((id: number) => (
+                        <LabelSticker key={id} backgroundColor="var(--gray700)">
+                          {id}
+                        </LabelSticker>
+                      ))}
                     </td>
-                  ))}
-                </tr>
+                    {reorderedShipRow.map((row, colIndex) => (
+                      <td key={colIndex} align="center">
+                        {data[row.val]}
+                      </td>
+                    ))}
+                  </tr>
+
+                  {rowIndex === openIndex && (
+                    <>
+                      {data.ids.map((id: number) => {
+                        const foundShip = inputData.useShips.find(
+                          (ship) => ship.id === id,
+                        );
+                        if (foundShip) {
+                          return (
+                            <tr key={id} className={styles.result_table_detail}>
+                              <td></td>
+                              <td className="flex items-center">
+                                <LabelSticker backgroundColor="var(--gray700)">
+                                  {id}
+                                </LabelSticker>
+                                <div className="ml-1">{foundShip.name}</div>
+                              </td>
+                            </tr>
+                          );
+                        } else {
+                          return (
+                            <tr key={id}>
+                              <td colSpan={2}></td>
+                            </tr>
+                          );
+                        }
+                      })}
+                    </>
+                  )}
+                </Fragment>
               ))}
             </tbody>
           </table>

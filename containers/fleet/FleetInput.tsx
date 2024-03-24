@@ -61,6 +61,10 @@ export default function FleetInput({
       });
   }, []);
 
+  useEffect(() => {
+    postFleet();
+  }, [isInit]);
+
   const setFleetFromSaveData = (savedData: fleetData) => {
     setUseShips(savedData.useShips || []);
     setUseArmors(savedData.useArmors || []);

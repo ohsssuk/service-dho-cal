@@ -40,11 +40,12 @@ export function getSortOptionFromStatRow(statRow: StatRowProps[]) {
   ];
 }
 
-export function checkItemMount(useItem: ShipItemProps[]) {
+// 소모성 값
+export function checkItem(useItem: ShipItemProps[]) {
   const MAX_MOUNT_COUNT = 7;
   let count = 0;
 
-  useItem.forEach((item) => {
+  useItem.forEach((item, index) => {
     item.isMount = false;
 
     if (item.isUse && item.kind !== 'ship') {
@@ -52,6 +53,10 @@ export function checkItemMount(useItem: ShipItemProps[]) {
       if (count <= MAX_MOUNT_COUNT) {
         item.isMount = true;
       }
+    }
+
+    if (item.kind === 'ship') {
+      item.id = index + 1;
     }
   });
 }
