@@ -27,6 +27,7 @@ export default function Input({
         id={id}
         type={type}
         value={value}
+        onWheel={(event) => event.currentTarget.blur()}
         placeholder={placeholder}
         className={`px-2 py-1 rounded-md border border-gray-300 outline-none text-base leading-normal w-full placeholder-gray-700::placeholder`}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>

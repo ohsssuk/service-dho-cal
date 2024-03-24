@@ -6,6 +6,7 @@ import {
   faAnchor,
   faShield,
   faTrowel,
+  faStar,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { ShipItemProps } from './ShipProps';
@@ -72,6 +73,12 @@ export default function ShipItem({
         {option.isMount && (
           <LabelSticker backgroundColor="var(--red500)">#장착</LabelSticker>
         )}
+
+        {option.kind === 'ship' && (
+          <LabelSticker backgroundColor="var(--gray700)">
+            {option.id}
+          </LabelSticker>
+        )}
       </section>
       <section className={styles.head}>
         <div className={styles.icon}>
@@ -83,6 +90,8 @@ export default function ShipItem({
                 return <FontAwesomeIcon icon={faAnchor} />;
               case 'ram':
                 return <FontAwesomeIcon icon={faTrowel} />;
+              case 'special':
+                return <FontAwesomeIcon icon={faStar} />;
               default:
                 return <FontAwesomeIcon icon={faSailboat} />;
             }
