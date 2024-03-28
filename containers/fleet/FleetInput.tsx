@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import { ShipItemProps, StatRowProps } from './item/ShipProps';
+import { ShipItemProps } from './item/ShipProps';
 
 import {
   createShipItem,
@@ -21,9 +21,9 @@ import CodePopup from './CodePopup';
 import { fleetData } from './type';
 
 export default function FleetInput({
-  calculateFleet,
+  postFleetData,
 }: {
-  calculateFleet: (fleetData: fleetData) => void;
+  postFleetData: (fleetData: fleetData) => void;
 }) {
   const [isInit, setIsInit] = useState<boolean>(false);
   const [lastIndex, setLastIndex] = useState<{
@@ -167,7 +167,7 @@ export default function FleetInput({
   };
 
   const postFleet = () => {
-    calculateFleet({
+    postFleetData({
       useShips,
       useArmors,
       useRams,

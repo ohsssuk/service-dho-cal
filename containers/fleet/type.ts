@@ -11,7 +11,4 @@ export type fleetData = {
 export type resultTableData = {
   [key: string]: number[] | number;
   ids: number[];
-  nae: number;
-  dol: number;
-  swe: number;
 };

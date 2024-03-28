@@ -74,11 +74,7 @@ export default function ShipItem({
           <LabelSticker backgroundColor="var(--red500)">#장착</LabelSticker>
         )}
 
-        {option.kind === 'ship' && (
-          <LabelSticker backgroundColor="var(--gray700)">
-            {option.id}
-          </LabelSticker>
-        )}
+        {option.kind === 'ship' && <LabelSticker>{option.id}</LabelSticker>}
       </section>
       <section className={styles.head}>
         <div className={styles.icon}>

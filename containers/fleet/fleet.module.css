@@ -164,6 +164,6 @@
   color: var(--main600) !important;
 }
 .result_table tbody tr:hover {
-  background-color: var(--gray100);
+  background-color: var(--gray200);
   cursor: pointer;
 }

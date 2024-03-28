@@ -13,18 +13,22 @@ import { fleetData, resultTableData } from '../type';
 import { statRow } from '../data';
 import { moveColumnsToFront } from '../main';
 import LabelSticker from '@/components/LabelSticker';
+import Select from '@/components/Select';
+
+const DEFAULT_LIST_LIMIT = 10;
 
 export default function ResultTable({
   resultTableData,
-  inputData,
+  fleetData,
 }: {
   resultTableData: resultTableData[];
-  inputData: fleetData;
+  fleetData: fleetData;
 }) {
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [openIndex, setOpenIndex] = useState<number>(0);
+  const [listLimit, setListLimit] = useState<number>(DEFAULT_LIST_LIMIT);
 
   useEffect(() => {
     setIsLoading(false);
@@ -57,6 +61,7 @@ export default function ResultTable({
     'nae',
     'dol',
     'swe',
+    'loadedQuantity',
   ]);
 
   function StatSortingColumn({
@@ -66,12 +71,23 @@ export default function ResultTable({
     columnName: string;
     columnNameKor: string;
   }) {
+    const averageColumn = [
+      'nae',
+      'swe',
+      'dol',
+      'durability',
+      'verticalSail',
+      'horizontalSail',
+      'stat1',
+      'stat2',
+      'stat3',
+    ];
     return (
       <th
         className={sortColumn === columnName ? styles.sorting : ''}
         onClick={() => handleSort(columnName)}
       >
-        {columnNameKor}
+        {columnNameKor} {averageColumn.includes(columnName) ? '(a)' : ''}
         {sortColumn === columnName ? (
           <FontAwesomeIcon
             icon={sortOrder === 'asc' ? faSortUp : faSortDown}
@@ -85,7 +101,23 @@ export default function ResultTable({
   }
 
   return (
-    <CommonSection>
+    <CommonSection title="함대 구성">
+      <div className="flex justify-end py-1 px-2">
+        <div className="w-40">
+          <Select
+            options={[
+              { value: '', content: '표시 개수' },
+              { value: 5, content: 5 },
+              { value: 10, content: 10 },
+              { value: 20, content: 20 },
+              { value: 50, content: 50 },
+              { value: 100, content: 100 },
+            ]}
+            selectedValue={''}
+            onSelect={(value) => setListLimit(Number(value))}
+          />
+        </div>
+      </div>
       <section className={styles.result_table_wrap}>
         {!isLoading && (
           <table className={styles.result_table}>
@@ -110,63 +142,67 @@ export default function ResultTable({
               </tr>
             </thead>
             <tbody>
-              {sortedData.map((data: resultTableData, rowIndex) => (
-                <Fragment key={rowIndex}>
-                  <tr onClick={() => setOpenIndex(rowIndex)}>
-                    <td>{rowIndex + 1}</td>
-                    <td>
-                      {data.ids.map((id: number) => (
-                        <LabelSticker key={id} backgroundColor="var(--gray700)">
-                          {id}
-                        </LabelSticker>
-                      ))}
-                    </td>
-                    {reorderedShipRow.map((row, colIndex) => (
-                      <td key={colIndex} align="center">
-                        {data[row.val]}
+              {sortedData
+                .slice(0, listLimit)
+                .map((data: resultTableData, rowIndex) => (
+                  <Fragment key={rowIndex}>
+                    <tr onClick={() => setOpenIndex(rowIndex)}>
+                      <td>{rowIndex + 1}</td>
+                      <td>
+                        {data.ids.map((id: number) => (
+                          <LabelSticker key={id}>{id}</LabelSticker>
+                        ))}
                       </td>
-                    ))}
-                  </tr>
+                      {reorderedShipRow.map((row, colIndex) => (
+                        <td key={colIndex} align="center">
+                          {data[row.val]}
+                        </td>
+                      ))}
+                    </tr>
 
-                  {rowIndex === openIndex && (
-                    <>
-                      {data.ids.map((id: number) => {
-                        const foundShip = inputData.useShips.find(
-                          (ship) => ship.id === id,
-                        );
-
-                        console.log(foundShip);
-                        if (foundShip) {
-                          return (
-                            <tr key={id} className={styles.result_table_detail}>
-                              <td></td>
-                              <td className="flex items-center">
-                                <LabelSticker backgroundColor="var(--gray700)">
-                                  {id}
-                                </LabelSticker>
-                                <div className="ml-1">{foundShip.name}</div>
-                              </td>
-                              <td align="center">{foundShip.nae}</td>
-                              <td align="center">{foundShip.dol}</td>
-                              <td align="center">{foundShip.swe}</td>
-                              <td align="center">{foundShip.crew}</td>
-                              <td align="center">{foundShip.minCrew}</td>
-                              <td align="center">{foundShip.durability}</td>
-                              <td align="center">{foundShip.loadedQuantity}</td>
-                              <td align="center">{foundShip.rowing}</td>
-                              <td align="center">{foundShip.verticalSail}</td>
-                              <td align="center">{foundShip.horizontalSail}</td>
-                              <td align="center">{foundShip.stat1}</td>
-                              <td align="center">{foundShip.stat2}</td>
-                              <td align="center">{foundShip.stat3}</td>
-                            </tr>
+                    {rowIndex === openIndex && (
+                      <>
+                        {data.ids.map((id: number) => {
+                          const foundShip = fleetData.useShips.find(
+                            (ship) => ship.id === id,
                           );
-                        }
-                      })}
-                    </>
-                  )}
-                </Fragment>
-              ))}
+
+                          if (foundShip) {
+                            return (
+                              <tr
+                                key={id}
+                                className={styles.result_table_detail}
+                              >
+                                <td></td>
+                                <td className="flex items-center">
+                                  <LabelSticker>{id}</LabelSticker>
+                                  <div className="ml-1">{foundShip.name}</div>
+                                </td>
+                                <td align="center">{foundShip.nae}</td>
+                                <td align="center">{foundShip.dol}</td>
+                                <td align="center">{foundShip.swe}</td>
+                                <td align="center">
+                                  {foundShip.loadedQuantity}
+                                </td>
+                                <td align="center">{foundShip.crew}</td>
+                                <td align="center">{foundShip.minCrew}</td>
+                                <td align="center">{foundShip.durability}</td>
+                                <td align="center">{foundShip.rowing}</td>
+                                <td align="center">{foundShip.verticalSail}</td>
+                                <td align="center">
+                                  {foundShip.horizontalSail}
+                                </td>
+                                <td align="center">{foundShip.stat1}</td>
+                                <td align="center">{foundShip.stat2}</td>
+                                <td align="center">{foundShip.stat3}</td>
+                              </tr>
+                            );
+                          }
+                        })}
+                      </>
+                    )}
+                  </Fragment>
+                ))}
             </tbody>
           </table>
         )}
