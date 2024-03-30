@@ -54,7 +54,14 @@ export default function ShipItem({
   };
 
   return (
-    <li className={styles.item}>
+    <li
+      className={styles.item}
+      style={
+        option.kind !== 'ship' && !option.isMount
+          ? { borderStyle: 'dashed' }
+          : {}
+      }
+    >
       <section className={styles.menu}>
         <div className="flex pr-5">
           <Checkbox
@@ -72,7 +79,21 @@ export default function ShipItem({
       </section>
       <section className={styles.label}>
         {option.isMount && (
-          <LabelSticker backgroundColor="var(--red500)">#장착</LabelSticker>
+          <>
+            <LabelSticker backgroundColor="var(--red500)">#장착</LabelSticker>
+            <br />
+          </>
+        )}
+        {option.isNaeMin && (
+          <LabelSticker backgroundColor="var(--yellow700)">
+            내파 T7
+          </LabelSticker>
+        )}
+        {option.isDolMin && (
+          <LabelSticker backgroundColor="var(--green700)">돌파 T7</LabelSticker>
+        )}
+        {option.isSweMin && (
+          <LabelSticker backgroundColor="var(--blue600)">쇄빙 T7</LabelSticker>
         )}
 
         {option.kind === 'ship' && <LabelSticker>{option.id}</LabelSticker>}
