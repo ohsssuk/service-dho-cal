@@ -63,6 +63,10 @@ export function checkItem(useItem: ShipItemProps[]) {
   useItem.forEach((item, index) => {
     item.isMount = false;
 
+    item.isNaeMin = false;
+    item.isDolMin = false;
+    item.isSweMin = false;
+
     if (item.kind !== 'ship') {
       if (item.isUse) {
         count++;
