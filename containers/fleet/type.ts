@@ -6,6 +6,7 @@ export type fleetData = {
   useRams: ShipItemProps[];
   useAnchor: ShipItemProps[];
   useSpecial: ShipItemProps[];
+  useFigurehead: ShipItemProps[];
 };
 
 export type resultTableData = {

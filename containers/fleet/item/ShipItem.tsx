@@ -7,6 +7,7 @@ import {
   faShield,
   faTrowel,
   faStar,
+  faDragon,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { ShipItemProps } from './ShipProps';
@@ -84,6 +85,8 @@ export default function ShipItem({
                 return <FontAwesomeIcon icon={faShield} />;
               case 'anchor':
                 return <FontAwesomeIcon icon={faAnchor} />;
+              case 'figurehead':
+                return <FontAwesomeIcon icon={faDragon} />;
               case 'ram':
                 return <FontAwesomeIcon icon={faTrowel} />;
               case 'special':

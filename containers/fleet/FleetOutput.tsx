@@ -21,7 +21,14 @@ export default function FleetOutput({ inputData }: { inputData: fleetData }) {
   }, [inputData]);
 
   const handleCalculateFleet = () => {
-    const { useShips } = inputData;
+    const {
+      useShips,
+      useArmors,
+      useRams,
+      useAnchor,
+      useFigurehead,
+      useSpecial,
+    } = inputData;
 
     const allCombinations: ShipItemProps[][] = generateCombinations(
       useShips,

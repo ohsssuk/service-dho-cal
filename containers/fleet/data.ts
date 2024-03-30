@@ -73,6 +73,7 @@ const armorStatRow = [statRowNae];
 const ramStatRow = [statRowSwe, statRowDol];
 const anchorStatRow = [statRowNae, statRowSwe, statRowDol];
 const specialStatRow = [statRowNae, statRowSwe, statRowDol];
+const figureheadStatRow = [statRowSwe, statRowDol];
 
 export const statRow = {
   ship: shipStatRow,
@@ -80,4 +81,5 @@ export const statRow = {
   ram: ramStatRow,
   anchor: anchorStatRow,
   special: specialStatRow,
+  figurehead: figureheadStatRow,
 };

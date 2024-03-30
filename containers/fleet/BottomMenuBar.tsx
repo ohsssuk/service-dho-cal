@@ -35,12 +35,24 @@ export default function BottomMenuBar({
   useCode,
   deleteAll,
 }: BottomMenuBar) {
+  const scrollToResultTable = () => {
+    const resultTable = document.getElementById('result_table');
+    if (resultTable) {
+      resultTable.scrollIntoView();
+    }
+  };
+
   const handleCalculate = () => {
+    scrollToResultTable();
     calculate();
   };
 
   const handleSave = () => {
     save();
+  };
+
+  const handleUseCode = () => {
+    useCode();
   };
 
   const handleDeleteAll = () => {
@@ -56,11 +68,11 @@ export default function BottomMenuBar({
       }}
       className="fixed bottom-0 text-white left-0 w-full bg-white px-2 py-3 flex justify-end"
     >
-      <Button onClick={calculate} icon={faCalculator} text="계산" />
-      <Button onClick={save} icon={faSave} text="저장" />
-      <Button onClick={useCode} icon={faCode} text="코드 사용" />
+      <Button onClick={handleCalculate} icon={faCalculator} text="계산" />
+      <Button onClick={handleSave} icon={faSave} text="저장" />
+      <Button onClick={handleUseCode} icon={faCode} text="코드 사용" />
       <div className="hidden md:flex">
-        <Button onClick={deleteAll} icon={faSyncAlt} text="초기화" />
+        <Button onClick={handleDeleteAll} icon={faSyncAlt} text="초기화" />
       </div>
     </section>
   );
