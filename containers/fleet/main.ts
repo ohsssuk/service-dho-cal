@@ -71,13 +71,13 @@ export function checkItem(useItem: ShipItemProps[]) {
         }
       }
 
-      if (item.nae && item.nae >= minNae) {
+      if (item.nae && item.nae >= minNae && item.nae > 0) {
         item.isNaeMin = true;
       }
-      if (item.dol && item.dol >= minDol) {
+      if (item.dol && item.dol >= minDol && item.dol > 0) {
         item.isDolMin = true;
       }
-      if (item.swe && item.swe >= minSwe) {
+      if (item.swe && item.swe >= minSwe && item.swe > 0) {
         item.isSweMin = true;
       }
     }
