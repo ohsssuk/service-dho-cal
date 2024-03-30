@@ -1,13 +1,15 @@
 'use client';
 
-import CommonSection from '@/components/CommonSection';
 import ResultTable from './item/ResultTable';
 import { useEffect, useState } from 'react';
 import styles from './fleet.module.css';
-import { fleetData, resultTableData } from './type';
+import { fleetData, partsSumForShip, resultTableData } from './type';
 import { ShipItemProps } from './item/ShipProps';
-import { generateCombinations } from './calculation';
-import Select from '@/components/Select';
+import {
+  calculatePartsSum,
+  calculatePartsSumForShip,
+  generateCombinations,
+} from './calculation';
 
 const SHIP_COUNT_IN_FLEET = 7;
 
@@ -15,25 +17,23 @@ export default function FleetOutput({ inputData }: { inputData: fleetData }) {
   const [resultTableData, setResultTableData] = useState<
     resultTableData[] | null
   >(null);
+  const [resultShipsParts, setResultShipsParts] = useState<partsSumForShip>(
+    calculatePartsSumForShip(inputData),
+  );
 
   useEffect(() => {
     handleCalculateFleet();
   }, [inputData]);
 
   const handleCalculateFleet = () => {
-    const {
-      useShips,
-      useArmors,
-      useRams,
-      useAnchor,
-      useFigurehead,
-      useSpecial,
-    } = inputData;
+    const { useShips } = inputData;
 
     const allCombinations: ShipItemProps[][] = generateCombinations(
       useShips,
       SHIP_COUNT_IN_FLEET,
     );
+
+    const partsSum = calculatePartsSum(inputData);
 
     const newResultTableData: resultTableData[] = [];
     allCombinations.forEach((combination) => {
@@ -88,10 +88,10 @@ export default function FleetOutput({ inputData }: { inputData: fleetData }) {
 
       newResultTableData.push({
         ids: combination.map((item) => Number(item.id)),
-        nae: Number((naeSum / SHIP_COUNT_IN_FLEET).toFixed(2)),
-        swe: Number((sweSum / SHIP_COUNT_IN_FLEET).toFixed(2)),
-        dol: Number((dolSum / SHIP_COUNT_IN_FLEET).toFixed(2)),
-        loadedQuantity: loadedQuantitySum,
+        nae: Number(((naeSum + partsSum.nae) / SHIP_COUNT_IN_FLEET).toFixed(2)),
+        swe: Number(((sweSum + partsSum.swe) / SHIP_COUNT_IN_FLEET).toFixed(2)),
+        dol: Number(((dolSum + partsSum.dol) / SHIP_COUNT_IN_FLEET).toFixed(2)),
+        loadedQuantity: loadedQuantitySum + partsSum.loadedQuantity,
         crew: crewSum,
         minCrew: minCrewSum,
         durability: Number((durabilitySum / SHIP_COUNT_IN_FLEET).toFixed(2)),
@@ -109,12 +109,17 @@ export default function FleetOutput({ inputData }: { inputData: fleetData }) {
     });
 
     setResultTableData(newResultTableData);
+    setResultShipsParts(calculatePartsSumForShip(inputData));
   };
 
   return (
     <>
       {resultTableData && inputData && (
-        <ResultTable fleetData={inputData} resultTableData={resultTableData} />
+        <ResultTable
+          fleetData={inputData}
+          resultTableData={resultTableData}
+          resultShipsParts={resultShipsParts}
+        />
       )}
     </>
   );

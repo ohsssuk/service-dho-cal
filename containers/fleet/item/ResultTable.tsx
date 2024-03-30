@@ -9,7 +9,7 @@ import {
   faSortDown,
   faSortUp,
 } from '@fortawesome/free-solid-svg-icons';
-import { fleetData, resultTableData } from '../type';
+import { fleetData, partsSumForShip, resultTableData } from '../type';
 import { statRow } from '../data';
 import { moveColumnsToFront } from '../main';
 import LabelSticker from '@/components/LabelSticker';
@@ -19,9 +19,11 @@ const DEFAULT_LIST_LIMIT = 10;
 
 export default function ResultTable({
   resultTableData,
+  resultShipsParts,
   fleetData,
 }: {
   resultTableData: resultTableData[];
+  resultShipsParts: partsSumForShip;
   fleetData: fleetData;
 }) {
   const [sortColumn, setSortColumn] = useState<string | null>(null);
@@ -100,6 +102,22 @@ export default function ResultTable({
     );
   }
 
+  function BonusStat({ value }: { value: number }) {
+    if (value > 0) {
+      return (
+        <span
+          style={{
+            color: 'var(--green500)',
+          }}
+        >
+          +{value}
+        </span>
+      );
+    } else {
+      return null;
+    }
+  }
+
   return (
     <CommonSection id="result_table" title="함대 구성">
       <div className="flex justify-end py-1 px-2">
@@ -163,7 +181,7 @@ export default function ResultTable({
 
                       {rowIndex === openIndex && (
                         <>
-                          {data.ids.map((id: number) => {
+                          {data.ids.map((id: number, foundShipIdx: number) => {
                             const foundShip = fleetData.useShips.find(
                               (ship) => ship.id === id,
                             );
@@ -179,9 +197,30 @@ export default function ResultTable({
                                     <LabelSticker>{id}</LabelSticker>
                                     <div className="ml-1">{foundShip.name}</div>
                                   </td>
-                                  <td align="center">{foundShip.nae}</td>
-                                  <td align="center">{foundShip.dol}</td>
-                                  <td align="center">{foundShip.swe}</td>
+                                  <td align="center">
+                                    {foundShip.nae}{' '}
+                                    <BonusStat
+                                      value={
+                                        resultShipsParts.nae[foundShipIdx] ?? 0
+                                      }
+                                    />
+                                  </td>
+                                  <td align="center">
+                                    {foundShip.dol}{' '}
+                                    <BonusStat
+                                      value={
+                                        resultShipsParts.dol[foundShipIdx] ?? 0
+                                      }
+                                    />
+                                  </td>
+                                  <td align="center">
+                                    {foundShip.swe}{' '}
+                                    <BonusStat
+                                      value={
+                                        resultShipsParts.swe[foundShipIdx] ?? 0
+                                      }
+                                    />
+                                  </td>
                                   <td align="center">
                                     {foundShip.loadedQuantity}
                                   </td>

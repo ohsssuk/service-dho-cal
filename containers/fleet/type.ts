@@ -1,15 +1,18 @@
 import { ShipItemProps } from './item/ShipProps';
 
 export type fleetData = {
-  useShips: ShipItemProps[];
-  useArmors: ShipItemProps[];
-  useRams: ShipItemProps[];
-  useAnchor: ShipItemProps[];
-  useSpecial: ShipItemProps[];
-  useFigurehead: ShipItemProps[];
+  [key: string]: ShipItemProps[];
 };
 
 export type resultTableData = {
   [key: string]: number[] | number;
   ids: number[];
+};
+
+export type partsSum = {
+  [key: string]: number;
+};
+
+export type partsSumForShip = {
+  [key: string]: number[];
 };

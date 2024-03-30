@@ -1,4 +1,5 @@
 import { ShipItemProps, StatRowProps } from './item/ShipProps';
+import { partsSum } from './type';
 
 export function createShipItem(props: Partial<ShipItemProps>): ShipItemProps {
   return {
@@ -18,6 +19,15 @@ export function createShipItem(props: Partial<ShipItemProps>): ShipItemProps {
     stat2: props.stat2 ?? null,
     stat3: props.stat3 ?? null,
     isUse: props.isUse ?? true,
+  };
+}
+
+export function createPartsSumDefault(): partsSum {
+  return {
+    nae: 0,
+    dol: 0,
+    swe: 0,
+    loadedQuantity: 0,
   };
 }
 
