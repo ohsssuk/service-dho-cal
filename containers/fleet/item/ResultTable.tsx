@@ -9,7 +9,7 @@ import {
   faSortDown,
   faSortUp,
 } from '@fortawesome/free-solid-svg-icons';
-import { fleetData, resultTableData } from '../type';
+import { fleetData, partsSumForShip, resultTableData } from '../type';
 import { statRow } from '../data';
 import { moveColumnsToFront } from '../main';
 import LabelSticker from '@/components/LabelSticker';
@@ -19,9 +19,11 @@ const DEFAULT_LIST_LIMIT = 10;
 
 export default function ResultTable({
   resultTableData,
+  resultShipsParts,
   fleetData,
 }: {
   resultTableData: resultTableData[];
+  resultShipsParts: partsSumForShip;
   fleetData: fleetData;
 }) {
   const [sortColumn, setSortColumn] = useState<string | null>(null);
@@ -100,8 +102,24 @@ export default function ResultTable({
     );
   }
 
+  function BonusStat({ value }: { value: number }) {
+    if (value > 0) {
+      return (
+        <span
+          style={{
+            color: 'var(--green500)',
+          }}
+        >
+          +{value}
+        </span>
+      );
+    } else {
+      return null;
+    }
+  }
+
   return (
-    <CommonSection title="함대 구성">
+    <CommonSection id="result_table" title="함대 구성">
       <div className="flex justify-end py-1 px-2">
         <div className="w-40">
           <Select
@@ -142,67 +160,100 @@ export default function ResultTable({
               </tr>
             </thead>
             <tbody>
-              {sortedData
-                .slice(0, listLimit)
-                .map((data: resultTableData, rowIndex) => (
-                  <Fragment key={rowIndex}>
-                    <tr onClick={() => setOpenIndex(rowIndex)}>
-                      <td>{rowIndex + 1}</td>
-                      <td>
-                        {data.ids.map((id: number) => (
-                          <LabelSticker key={id}>{id}</LabelSticker>
-                        ))}
-                      </td>
-                      {reorderedShipRow.map((row, colIndex) => (
-                        <td key={colIndex} align="center">
-                          {data[row.val]}
+              {sortedData.length > 1 ? (
+                sortedData
+                  .slice(0, listLimit)
+                  .map((data: resultTableData, rowIndex) => (
+                    <Fragment key={rowIndex}>
+                      <tr onClick={() => setOpenIndex(rowIndex)}>
+                        <td>{rowIndex + 1}</td>
+                        <td>
+                          {data.ids.map((id: number) => (
+                            <LabelSticker key={id}>{id}</LabelSticker>
+                          ))}
                         </td>
-                      ))}
-                    </tr>
+                        {reorderedShipRow.map((row, colIndex) => (
+                          <td key={colIndex} align="center">
+                            {data[row.val]}
+                          </td>
+                        ))}
+                      </tr>
 
-                    {rowIndex === openIndex && (
-                      <>
-                        {data.ids.map((id: number) => {
-                          const foundShip = fleetData.useShips.find(
-                            (ship) => ship.id === id,
-                          );
-
-                          if (foundShip) {
-                            return (
-                              <tr
-                                key={id}
-                                className={styles.result_table_detail}
-                              >
-                                <td></td>
-                                <td className="flex items-center">
-                                  <LabelSticker>{id}</LabelSticker>
-                                  <div className="ml-1">{foundShip.name}</div>
-                                </td>
-                                <td align="center">{foundShip.nae}</td>
-                                <td align="center">{foundShip.dol}</td>
-                                <td align="center">{foundShip.swe}</td>
-                                <td align="center">
-                                  {foundShip.loadedQuantity}
-                                </td>
-                                <td align="center">{foundShip.crew}</td>
-                                <td align="center">{foundShip.minCrew}</td>
-                                <td align="center">{foundShip.durability}</td>
-                                <td align="center">{foundShip.rowing}</td>
-                                <td align="center">{foundShip.verticalSail}</td>
-                                <td align="center">
-                                  {foundShip.horizontalSail}
-                                </td>
-                                <td align="center">{foundShip.stat1}</td>
-                                <td align="center">{foundShip.stat2}</td>
-                                <td align="center">{foundShip.stat3}</td>
-                              </tr>
+                      {rowIndex === openIndex && (
+                        <>
+                          {data.ids.map((id: number, foundShipIdx: number) => {
+                            const foundShip = fleetData.useShips.find(
+                              (ship) => ship.id === id,
                             );
-                          }
-                        })}
-                      </>
-                    )}
-                  </Fragment>
-                ))}
+
+                            if (foundShip) {
+                              return (
+                                <tr
+                                  key={id}
+                                  className={styles.result_table_detail}
+                                >
+                                  <td></td>
+                                  <td className="flex items-center">
+                                    <LabelSticker>{id}</LabelSticker>
+                                    <div className="ml-1">{foundShip.name}</div>
+                                  </td>
+                                  <td align="center">
+                                    {foundShip.nae}{' '}
+                                    <BonusStat
+                                      value={
+                                        resultShipsParts.nae[foundShipIdx] ?? 0
+                                      }
+                                    />
+                                  </td>
+                                  <td align="center">
+                                    {foundShip.dol}{' '}
+                                    <BonusStat
+                                      value={
+                                        resultShipsParts.dol[foundShipIdx] ?? 0
+                                      }
+                                    />
+                                  </td>
+                                  <td align="center">
+                                    {foundShip.swe}{' '}
+                                    <BonusStat
+                                      value={
+                                        resultShipsParts.swe[foundShipIdx] ?? 0
+                                      }
+                                    />
+                                  </td>
+                                  <td align="center">
+                                    {foundShip.loadedQuantity}
+                                  </td>
+                                  <td align="center">{foundShip.crew}</td>
+                                  <td align="center">{foundShip.minCrew}</td>
+                                  <td align="center">{foundShip.durability}</td>
+                                  <td align="center">{foundShip.rowing}</td>
+                                  <td align="center">
+                                    {foundShip.verticalSail}
+                                  </td>
+                                  <td align="center">
+                                    {foundShip.horizontalSail}
+                                  </td>
+                                  <td align="center">{foundShip.stat1}</td>
+                                  <td align="center">{foundShip.stat2}</td>
+                                  <td align="center">{foundShip.stat3}</td>
+                                </tr>
+                              );
+                            }
+                          })}
+                        </>
+                      )}
+                    </Fragment>
+                  ))
+              ) : (
+                <tr>
+                  <td align="left" colSpan={15}>
+                    <span style={{ color: 'var(--gray600)' }}>
+                      데이터가 없습니다.
+                    </span>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         )}

@@ -32,12 +32,14 @@ export default function FleetInput({
     anchor: number;
     ram: number;
     special: number;
+    figurehead: number;
   }>({
     ship: 0,
     armor: 0,
     anchor: 0,
     ram: 0,
     special: 0,
+    figurehead: 0,
   });
 
   const [useShips, setUseShips] = useState<ShipItemProps[]>([]);
@@ -45,6 +47,7 @@ export default function FleetInput({
   const [useRams, setUseRams] = useState<ShipItemProps[]>([]);
   const [useAnchor, setUseAnchor] = useState<ShipItemProps[]>([]);
   const [useSpecial, setUseSpecial] = useState<ShipItemProps[]>([]);
+  const [useFigurehead, setUseFigurehead] = useState<ShipItemProps[]>([]);
 
   const [isCodePopupOpen, setIsCodePopupOpen] = useState<boolean>(false);
   const [codePopupData, setCodePopupData] = useState<string>('');
@@ -71,12 +74,14 @@ export default function FleetInput({
     setUseRams(savedData.useRams || []);
     setUseAnchor(savedData.useAnchor || []);
     setUseSpecial(savedData.useSpecial || []);
+    setUseFigurehead(savedData.useFigurehead || []);
     setLastIndex({
-      ship: savedData.useShips.length ?? 0,
-      armor: savedData.useArmors.length ?? 0,
-      ram: savedData.useRams.length ?? 0,
-      anchor: savedData.useAnchor.length ?? 0,
-      special: savedData.useSpecial.length ?? 0,
+      ship: savedData.useShips ? savedData.useShips.length : 0,
+      armor: savedData.useArmors ? savedData.useArmors.length : 0,
+      ram: savedData.useRams ? savedData.useRams.length : 0,
+      anchor: savedData.useAnchor ? savedData.useAnchor.length : 0,
+      special: savedData.useSpecial ? savedData.useSpecial.length : 0,
+      figurehead: savedData.useFigurehead ? savedData.useFigurehead.length : 0,
     });
   };
 
@@ -100,6 +105,11 @@ export default function FleetInput({
         newUseItem = [...useAnchor];
         setUseItem = setUseAnchor;
         korLang = '닻';
+        break;
+      case 'figurehead':
+        newUseItem = [...useFigurehead];
+        setUseItem = setUseFigurehead;
+        korLang = '선수상';
         break;
       case 'special':
         newUseItem = [...useSpecial];
@@ -173,6 +183,7 @@ export default function FleetInput({
       useRams,
       useAnchor,
       useSpecial,
+      useFigurehead,
     });
   };
 
@@ -183,6 +194,7 @@ export default function FleetInput({
       useRams: removeShipItemListNullValues(useRams),
       useAnchor: removeShipItemListNullValues(useAnchor),
       useSpecial: removeShipItemListNullValues(useSpecial),
+      useFigurehead: removeShipItemListNullValues(useFigurehead),
     });
 
     alert('웹 브라우저에 저장되었습니다.');
@@ -196,12 +208,17 @@ export default function FleetInput({
         useRams: removeShipItemListNullValues(useRams),
         useAnchor: removeShipItemListNullValues(useAnchor),
         useSpecial: removeShipItemListNullValues(useSpecial),
+        useFigurehead: removeShipItemListNullValues(useFigurehead),
       }),
     );
     setIsCodePopupOpen(true);
   };
 
   const handleApplyCode = (fleetCode: string) => {
+    if (fleetCode.trim() === '') {
+      fleetCode = '{}';
+    }
+
     setFleetFromSaveData(JSON.parse(fleetCode));
     setIsCodePopupOpen(false);
     alert('적용 되었습니다.');
@@ -214,6 +231,7 @@ export default function FleetInput({
       setUseRams([]);
       setUseAnchor([]);
       setUseSpecial([]);
+      setUseFigurehead([]);
     }
   };
 
@@ -290,6 +308,24 @@ export default function FleetInput({
           addUseItem={addUseItem}
           changeUseItem={changeUseItem}
           kind="anchor"
+        />
+      </CommonSection>
+
+      <CommonSection title="선수상 입력">
+        <div className="flex justify-end py-1 px-2">
+          <div className="w-40">
+            <Select
+              options={getSortOptionFromStatRow(statRow.figurehead)}
+              selectedValue={''}
+              onSelect={(value) => sortUseItem(value, 'figurehead')}
+            />
+          </div>
+        </div>
+        <ShipItemList
+          useItem={useFigurehead}
+          addUseItem={addUseItem}
+          changeUseItem={changeUseItem}
+          kind="figurehead"
         />
       </CommonSection>
 

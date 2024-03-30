@@ -1,4 +1,5 @@
 import { ShipItemProps, StatRowProps } from './item/ShipProps';
+import { partsSum } from './type';
 
 export function createShipItem(props: Partial<ShipItemProps>): ShipItemProps {
   return {
@@ -21,6 +22,15 @@ export function createShipItem(props: Partial<ShipItemProps>): ShipItemProps {
   };
 }
 
+export function createPartsSumDefault(): partsSum {
+  return {
+    nae: 0,
+    dol: 0,
+    swe: 0,
+    loadedQuantity: 0,
+  };
+}
+
 export function getSortOptionFromStatRow(statRow: StatRowProps[]) {
   const newData = statRow.map((stat: StatRowProps) => ({
     content: stat.kor,
@@ -33,25 +43,42 @@ export function getSortOptionFromStatRow(statRow: StatRowProps[]) {
       value: '',
     },
     {
-      content: '이름순',
+      content: '이름',
       value: 'name',
     },
     ...newData,
   ];
 }
 
+const MAX_MOUNT_COUNT = 7;
+
 // 소모성 값
 export function checkItem(useItem: ShipItemProps[]) {
-  const MAX_MOUNT_COUNT = 7;
   let count = 0;
+
+  const minNae = getLastHighestStat(useItem, 'nae');
+  const minDol = getLastHighestStat(useItem, 'dol');
+  const minSwe = getLastHighestStat(useItem, 'swe');
 
   useItem.forEach((item, index) => {
     item.isMount = false;
 
-    if (item.isUse && item.kind !== 'ship') {
-      count++;
-      if (count <= MAX_MOUNT_COUNT) {
-        item.isMount = true;
+    if (item.kind !== 'ship') {
+      if (item.isUse) {
+        count++;
+        if (count <= MAX_MOUNT_COUNT) {
+          item.isMount = true;
+        }
+      }
+
+      if (item.nae && item.nae >= minNae) {
+        item.isNaeMin = true;
+      }
+      if (item.dol && item.dol >= minDol) {
+        item.isDolMin = true;
+      }
+      if (item.swe && item.swe >= minSwe) {
+        item.isSweMin = true;
       }
     }
 
@@ -59,6 +86,22 @@ export function checkItem(useItem: ShipItemProps[]) {
       item.id = index + 1;
     }
   });
+}
+
+function getLastHighestStat(useItem: ShipItemProps[], stat: string): number {
+  const sortedParts = useItem
+    .filter((part) => typeof part[stat] === 'number')
+    .sort((a, b) => ((b[stat] as number) || 0) - ((a[stat] as number) || 0));
+
+  let result = 0;
+
+  if (sortedParts.length >= MAX_MOUNT_COUNT) {
+    result = Number(sortedParts[MAX_MOUNT_COUNT - 1][stat]);
+  } else if (sortedParts.length > 0) {
+    result = Number(sortedParts[sortedParts.length - 1][stat]);
+  }
+
+  return result;
 }
 
 export function removeShipItemListNullValues(shipItemData: ShipItemProps[]) {

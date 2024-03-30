@@ -49,7 +49,7 @@
 }
 .item .label {
   padding: 2px 8px;
-  height: 28px;
+  min-height: 28px;
   background-color: var(--gray100);
 }
 

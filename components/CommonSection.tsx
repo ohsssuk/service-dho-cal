@@ -9,9 +9,11 @@ import styles from './components.module.css';
 export default function CommonSection({
   children,
   title,
+  id,
 }: {
   children: ReactNode;
   title?: string;
+  id?: string;
 }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -20,7 +22,7 @@ export default function CommonSection({
   };
 
   return (
-    <section className={`${styles.common_component} mx-auto`}>
+    <section id={id} className={`${styles.common_component} mx-auto`}>
       {title && (
         <div className={`${styles.head}`}>
           <h3 className={`${styles.title}`}>{title ?? ''}</h3>
