@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import FleetInput from './FleetInput';
 import FleetOutput from './FleetOutput';
 import { fleetData } from './type';
-import AdSense from '@/components/Adsense';
+import AdSense from '@/components/AdSense';
 
 export default function Fleet() {
   const [inputData, setInputData] = useState<fleetData | null>(null);
