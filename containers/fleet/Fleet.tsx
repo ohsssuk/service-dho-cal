@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import FleetInput from './FleetInput';
 import FleetOutput from './FleetOutput';
 import { fleetData } from './type';
+import AdSense from '@/components/Adsense';
 
 export default function Fleet() {
   const [inputData, setInputData] = useState<fleetData | null>(null);
@@ -15,6 +16,7 @@ export default function Fleet() {
 
   return (
     <>
+      <AdSense />
       {inputData !== null && <FleetOutput inputData={inputData} />}
       <FleetInput postFleetData={handlePostFleet} />
     </>
