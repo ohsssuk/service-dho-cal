@@ -4,6 +4,7 @@ import './globals.css';
 import './reset.css';
 import ConfigProvider from '@/context/commonContext';
 import Head from 'next/head';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 const SITE_TITLE = '대항오 계산기';
 const SITE_DESCRIPTION = '대항오 계산기';
@@ -36,6 +37,7 @@ export default function RootLayout({
       <ConfigProvider>
         <body>{children}</body>
       </ConfigProvider>
+      <GoogleAnalytics gaId="G-101Y9LS1P7" />
     </html>
   );
 }
