@@ -35,15 +35,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className="app">
+      <Head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4126261814359480"
+          crossOrigin="anonymous"
+        ></script>
+      </Head>
       <ConfigProvider>
         <body>{children}</body>
       </ConfigProvider>
       <GoogleAnalytics gaId="G-101Y9LS1P7" />
-      <Script
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4126261814359480"
-        crossOrigin="anonymous"
-      />
     </html>
   );
 }
