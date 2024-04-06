@@ -1,3 +1,6 @@
+'use client';
+
+import Script from 'next/script';
 import { useEffect } from 'react';
 
 declare global {
@@ -7,14 +10,8 @@ declare global {
 }
 
 export default function AdSense() {
-  useEffect(() => {
-    if (window.adsbygoogle && window.adsbygoogle.push) {
-      window.adsbygoogle.push({});
-    }
-  }, []);
-
   return (
-    <div className="googleAd-container">
+    <>
       <ins
         className="adsbygoogle"
         style={{ display: 'block' }}
@@ -22,7 +19,10 @@ export default function AdSense() {
         data-ad-slot="5536762597"
         data-ad-format="auto"
         data-full-width-responsive="true"
-      ></ins>
-    </div>
+      />
+      <Script strategy="afterInteractive">{`
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      `}</Script>
+    </>
   );
 }

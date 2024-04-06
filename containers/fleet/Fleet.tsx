@@ -16,7 +16,6 @@ export default function Fleet() {
 
   return (
     <>
-      <AdSense />
       {inputData !== null && <FleetOutput inputData={inputData} />}
       <FleetInput postFleetData={handlePostFleet} />
     </>

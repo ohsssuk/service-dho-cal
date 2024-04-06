@@ -4,7 +4,6 @@ import './globals.css';
 import './reset.css';
 import ConfigProvider from '@/context/commonContext';
 import { GoogleAnalytics } from '@next/third-parties/google';
-import Script from 'next/script';
 import Head from 'next/head';
 
 const SITE_TITLE = '대항오 계산기';
@@ -35,17 +34,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className="app">
-      <Head>
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4126261814359480"
-          crossOrigin="anonymous"
-        ></script>
-      </Head>
-      <ConfigProvider>
-        <body>{children}</body>
-      </ConfigProvider>
-      <GoogleAnalytics gaId="G-101Y9LS1P7" />
+      <body>{children}</body>
     </html>
   );
 }
