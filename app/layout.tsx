@@ -3,8 +3,9 @@ import type { Metadata } from 'next';
 import './globals.css';
 import './reset.css';
 import ConfigProvider from '@/context/commonContext';
-import Head from 'next/head';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import Script from 'next/script';
+import Head from 'next/head';
 
 const SITE_TITLE = '대항오 계산기';
 const SITE_DESCRIPTION = '대항오 계산기';
@@ -34,6 +35,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className="app">
+      <Head>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4126261814359480"
+          crossOrigin="anonymous"
+        />
+      </Head>
       <ConfigProvider>
         <body>{children}</body>
       </ConfigProvider>

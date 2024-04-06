@@ -8,19 +8,6 @@ declare global {
 
 export default function AdSense() {
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src =
-      'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4126261814359480';
-    script.async = true;
-    script.crossOrigin = 'anonymous'; // 추가
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-
-  useEffect(() => {
     if (window.adsbygoogle && window.adsbygoogle.push) {
       window.adsbygoogle.push({});
     }
