@@ -16,13 +16,13 @@ export const metadata: Metadata = {
   keywords: '대항해시대, 대항해시대 오리진, 게임, 계산기, 편의기능',
   openGraph: {
     type: 'website',
-    url: 'https://ohsssuk.github.io/dho-cal/',
+    url: 'https://dho-cal.lifebefore.co.kr/',
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     siteName: SITE_TITLE,
     images: [
       {
-        url: 'https://ohsssuk.github.io/dho-cal/public/og_image.jpg',
+        url: '',
       },
     ],
   },
