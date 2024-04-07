@@ -6,6 +6,7 @@ import {
   faSave,
   faSyncAlt,
 } from '@fortawesome/free-solid-svg-icons';
+import { sendGAEvent } from '@next/third-parties/google';
 
 type ButtonProps = {
   onClick: () => void;
@@ -45,18 +46,26 @@ export default function BottomMenuBar({
   const handleCalculate = () => {
     scrollToResultTable();
     calculate();
+
+    sendGAEvent({ event: 'click_calculate', eventCategory: 'fleet' });
   };
 
   const handleSave = () => {
     save();
+
+    sendGAEvent({ event: 'click_save', eventCategory: 'fleet' });
   };
 
   const handleUseCode = () => {
     useCode();
+
+    sendGAEvent({ event: 'click_useCode', eventCategory: 'fleet' });
   };
 
   const handleDeleteAll = () => {
     deleteAll();
+
+    sendGAEvent({ event: 'click_deleteAll', eventCategory: 'fleet' });
   };
 
   return (
