@@ -5,10 +5,16 @@ import { useEffect, useState } from 'react';
 import FleetInput from './FleetInput';
 import FleetOutput from './FleetOutput';
 import { fleetData } from './type';
-import AdSense from '@/components/AdSense';
 
 export default function Fleet() {
-  const [inputData, setInputData] = useState<fleetData | null>(null);
+  const [inputData, setInputData] = useState<fleetData>({
+    useShips: [],
+    useArmors: [],
+    useRams: [],
+    useAnchor: [],
+    useSpecial: [],
+    useFigurehead: [],
+  });
 
   const handlePostFleet = (fleetData: fleetData) => {
     setInputData(fleetData);
@@ -16,7 +22,7 @@ export default function Fleet() {
 
   return (
     <>
-      {inputData !== null && <FleetOutput inputData={inputData} />}
+      <FleetOutput inputData={inputData} />
       <FleetInput postFleetData={handlePostFleet} />
     </>
   );

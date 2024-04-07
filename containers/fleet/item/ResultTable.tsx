@@ -160,7 +160,7 @@ export default function ResultTable({
               </tr>
             </thead>
             <tbody>
-              {sortedData.length > 1 ? (
+              {sortedData.length > 0 ? (
                 sortedData
                   .slice(0, listLimit)
                   .map((data: resultTableData, rowIndex) => (

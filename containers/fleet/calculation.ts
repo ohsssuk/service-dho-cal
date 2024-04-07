@@ -10,6 +10,12 @@ export function generateCombinations(
     (useShips) => useShips.isUse,
   );
 
+  if (filteredShips.length === 0) {
+    return [];
+  } else if (filteredShips.length < combinationLength) {
+    return [filteredShips];
+  }
+
   function backtrack(startIndex: number, combination: ShipItemProps[]): void {
     if (combination.length === combinationLength) {
       combinations.push([...combination]);

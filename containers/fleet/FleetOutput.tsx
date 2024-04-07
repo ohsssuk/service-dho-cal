@@ -88,23 +88,21 @@ export default function FleetOutput({ inputData }: { inputData: fleetData }) {
 
       newResultTableData.push({
         ids: combination.map((item) => Number(item.id)),
-        nae: Number(((naeSum + partsSum.nae) / SHIP_COUNT_IN_FLEET).toFixed(2)),
-        swe: Number(((sweSum + partsSum.swe) / SHIP_COUNT_IN_FLEET).toFixed(2)),
-        dol: Number(((dolSum + partsSum.dol) / SHIP_COUNT_IN_FLEET).toFixed(2)),
+        nae: Number(((naeSum + partsSum.nae) / combination.length).toFixed(2)),
+        swe: Number(((sweSum + partsSum.swe) / combination.length).toFixed(2)),
+        dol: Number(((dolSum + partsSum.dol) / combination.length).toFixed(2)),
         loadedQuantity: loadedQuantitySum + partsSum.loadedQuantity,
         crew: crewSum,
         minCrew: minCrewSum,
-        durability: Number((durabilitySum / SHIP_COUNT_IN_FLEET).toFixed(2)),
+        durability: Number((durabilitySum / combination.length).toFixed(2)),
         rowing: rowingSum,
-        verticalSail: Number(
-          (verticalSailSum / SHIP_COUNT_IN_FLEET).toFixed(2),
-        ),
+        verticalSail: Number((verticalSailSum / combination.length).toFixed(2)),
         horizontalSail: Number(
-          (horizontalSailSum / SHIP_COUNT_IN_FLEET).toFixed(2),
+          (horizontalSailSum / combination.length).toFixed(2),
         ),
-        stat1: Number((stat1Sum / SHIP_COUNT_IN_FLEET).toFixed(2)),
-        stat2: Number((stat2Sum / SHIP_COUNT_IN_FLEET).toFixed(2)),
-        stat3: Number((stat3Sum / SHIP_COUNT_IN_FLEET).toFixed(2)),
+        stat1: Number((stat1Sum / combination.length).toFixed(2)),
+        stat2: Number((stat2Sum / combination.length).toFixed(2)),
+        stat3: Number((stat3Sum / combination.length).toFixed(2)),
       });
     });
 

@@ -68,7 +68,8 @@ export async function getLastSavedData(): Promise<any> {
     const storedData = await getUseData();
 
     if (storedData.length === 0) {
-      throw new Error('저장된 데이터가 없습니다.');
+      console.log('저장된 데이터가 없습니다.');
+      return null;
     }
 
     let lastData = storedData[0];
@@ -81,6 +82,6 @@ export async function getLastSavedData(): Promise<any> {
     return lastData;
   } catch (error) {
     console.error('마지막 데이터 가져오기 실패:', error);
-    return { useShips: [], useArmors: [], useRams: [], useAnchor: [] };
+    return null;
   }
 }
