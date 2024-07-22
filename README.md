@@ -87,7 +87,7 @@ bun dev
 
 ## 데이터 중심의 기능 구현
 
-![데이터 중심의 기능 구현](./images/work/work_11/e2.png)
+![데이터 중심의 기능 구현](http://www.ohsssuk.com/portfolio/images/work/work_11/e2.png)
 
 **각 객체가 독립적으로 능력치를 입력 받고 전체 계산 로직에 사용될 수 있어야함**
 
@@ -106,7 +106,7 @@ bun dev
 
 ## 가능한 함대 구성(선박 7개 조합)과 합산, 평균 능력치 표시
 
-![가능한 함대 구성](./images/work/work_11/e3.png)
+![가능한 함대 구성](http://www.ohsssuk.com/portfolio/images/work/work_11/e3.png)
 
 **N개의 선박중 최적의 평균 능력치를 가지는 7개의 선박을 가진 함대 조합을 추천하는 기능**
 
@@ -118,7 +118,7 @@ bun dev
 
 ## 부품의 수치 특성 표시, 정렬 기능
 
-![부품의 수치 특성 표시](./images/work/work_11/e4.png)
+![부품의 수치 특성 표시](http://www.ohsssuk.com/portfolio/images/work/work_11/e4.png)
 
 **동일 부품군을 비교하여 최대 효율 표시**
 
@@ -126,7 +126,7 @@ bun dev
 
 ## 입력값 저장 기능
 
-![입력값 저장 기능](./images/work/work_11/e5.png)
+![입력값 저장 기능](http://www.ohsssuk.com/portfolio/images/work/work_11/e5.png)
 
 **입력 값이 많기 때문에 UX 편의성을 위한 저장 기능을 구현**
 
