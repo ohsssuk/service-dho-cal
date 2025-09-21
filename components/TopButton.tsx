@@ -36,10 +36,12 @@ export default function TopButton() {
         <button
           onClick={scrollToTop}
           style={{
-            color: 'var(--gray500)',
+            color: '#374151',
             border: '1px solid var(--gray300)',
+            bottom: '20px',
+            right: '20px',
           }}
-          className="w-8 h-8 fixed bottom-20 right-10 z-50 bg-white rounded-md border"
+          className="w-8 h-8 fixed z-50 bg-white rounded-md border"
         >
           <FontAwesomeIcon icon={faArrowUp} className="text-sm" />
         </button>

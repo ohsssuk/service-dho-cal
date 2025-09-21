@@ -1,10 +1,9 @@
 import AdSense from '@/components/AdSense';
-import CommonSection from '@/components/CommonSection';
 import ContentHeader from '@/components/ContentHeader';
 import TopButton from '@/components/TopButton';
 import Fleet from '@/containers/fleet/Fleet';
 import { GoogleAnalytics } from '@next/third-parties/google';
-import Script from 'next/script';
+import '../app/fontawesome';
 
 export default function Home() {
   return (
