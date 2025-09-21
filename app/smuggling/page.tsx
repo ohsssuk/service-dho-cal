@@ -149,9 +149,7 @@ export default function SmugglingSites() {
         <ContentHeader title="밀수단 정보">
           <p>도시별 밀수단 위치와 밀수품 정보</p>
         </ContentHeader>
-        <div style={{ margin: 'auto', maxWidth: '1200px' }}>
-          <AdSense />
-        </div>
+        <AdSense />
         <div className={styles.container}>
           <div className={styles.citiesContainer}>
             {cities.map((city) => (

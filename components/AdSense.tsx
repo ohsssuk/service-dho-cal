@@ -11,7 +11,7 @@ declare global {
 
 export default function AdSense() {
   return (
-    <>
+    <div style={{ margin: 'auto', maxWidth: '1200px', padding: '0 24px' }}>
       <ins
         className="adsbygoogle"
         style={{ display: 'block' }}
@@ -23,6 +23,6 @@ export default function AdSense() {
       <Script strategy="afterInteractive">{`
         (adsbygoogle = window.adsbygoogle || []).push({});
       `}</Script>
-    </>
+    </div>
   );
 }
