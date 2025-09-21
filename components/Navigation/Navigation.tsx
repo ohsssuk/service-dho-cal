@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import styles from './Navigation.module.css';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -42,6 +43,8 @@ const MenuItem = ({
   isOpen: boolean;
   onToggle: (id: string) => void;
 }) => {
+  const pathname = usePathname();
+
   const toggleSubmenu = () => {
     onToggle(item.id);
   };
@@ -55,6 +58,15 @@ const MenuItem = ({
     if (onClick) {
       onClick();
     }
+  };
+
+  const isActive = (href: string) => {
+    // 홈 페이지 경우 정확히 일치할 때만 활성화
+    if (href === '/') {
+      return pathname === '/';
+    }
+    // 다른 페이지는 경로가 포함되면 활성화 (서브 경로도 활성화)
+    return pathname.startsWith(href);
   };
 
   return (
@@ -79,7 +91,7 @@ const MenuItem = ({
             ) : (
               <Link
                 href={child.href}
-                className={styles.menuItem}
+                className={`${styles.menuItem} ${isActive(child.href) ? styles.active : ''}`}
                 onClick={onClick}
               >
                 {child.label}
