@@ -1,8 +1,8 @@
 {
-  "name": "dho-cal",
+  "name": "dho-compass",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://dho-cal.lifebefore.co.kr/",
+  "homepage": "https://dho-compass.lifebefore.co.kr/",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

@@ -1,0 +1,183 @@
+.container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pageTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 32px;
+}
+
+.citiesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.cityCard {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-bottom: none;
+  overflow: hidden;
+}
+
+.cityCard:last-child {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.cityHeader {
+  width: 100%;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.cityHeader:hover {
+  background-color: #f9fafb;
+}
+
+.cityName {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #374151;
+  margin: 0;
+}
+
+.divider {
+  height: 1px;
+  background-color: #e5e7eb;
+  margin: 0;
+}
+
+.chevron {
+  font-size: 16px;
+  color: #6b7280;
+  transition: transform 0.2s ease;
+}
+
+.chevron.expanded {
+  transform: rotate(180deg);
+}
+
+.imagesGrid {
+  display: flex;
+  gap: 12px;
+  padding: 24px;
+  margin-bottom: 0;
+}
+
+.imageWrapper {
+  flex: 1;
+  position: relative;
+}
+
+.locationImage {
+  width: 100%;
+  height: auto;
+  max-width: 600px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.imageLabel {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.itemContainer {
+  padding: 10px;
+}
+
+.itemTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.itemTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.itemTable td {
+  border: 1px solid #e5e7eb;
+}
+
+.itemImageCell {
+  text-align: center;
+  padding: 4px;
+}
+
+.itemImage {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.itemDescriptionCell {
+  color: #374151;
+  font-size: 15px;
+  padding: 8px;
+  line-height: 1.4;
+  text-align: left;
+}
+.itemDescriptionCell strong {
+  font-weight: bold;
+}
+
+.pendingUpdateContainer {
+  padding: 24px;
+  text-align: center;
+}
+
+.pendingUpdateMessage {
+  color: #6b7280;
+  font-size: 16px;
+  font-style: italic;
+}
+
+/* 모바일 최적화 */
+@media (max-width: 768px) {
+  .container {
+    padding: 16px 10px;
+  }
+
+  .pageTitle {
+    font-size: 24px;
+    margin-bottom: 18px;
+  }
+
+  .cityHeader {
+    padding: 8px 16px;
+  }
+
+  .cityName {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .imagesGrid {
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+  }
+}
