@@ -20,6 +20,24 @@ export interface City {
 // 도시 데이터
 export const cities: City[] = [
   {
+    id: 'soda',
+    name: '소다섬',
+    images: [
+      {
+        url: '/smuggling/soda_1.png',
+        label: '위치',
+      },
+      {
+        url: '/smuggling/soda_2.png',
+        label: '미니맵',
+      },
+    ],
+    item: {
+      image: '/smuggling/soda_3.png',
+      description: '흰 비단 주머니: 보급법 LV20 이상',
+    },
+  },
+  {
     id: 'hamburg',
     name: '함부르크',
     images: [
